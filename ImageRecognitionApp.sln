@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageRecognitionApp", "image_recognition_kursova\ImageRecognitionApp.csproj", "{F60B553A-A83C-41B9-BC1A-6D4744F231F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageRecognitionApp", "ImageRecognitionApp\ImageRecognitionApp.csproj", "{F60B553A-A83C-41B9-BC1A-6D4744F231F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
