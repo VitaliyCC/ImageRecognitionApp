@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace image_recognition_kursova
+namespace ImageRecognitionApp
 {
     public partial class Form1 : Form
     {
@@ -15,8 +15,8 @@ namespace image_recognition_kursova
 
         private void button2_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Title = "Выберите файл";
-            openFileDialog1.Filter = "Изображения|*.jpg;*.png;*.bmp";
+            openFileDialog1.Title = "Оберіть файл";
+            openFileDialog1.Filter = "Зображення|*.jpg;*.png;*.bmp";
             openFileDialog1.ShowDialog();
             String pathimg = openFileDialog1.FileName;
             textBox1.Text = pathimg;
@@ -24,8 +24,8 @@ namespace image_recognition_kursova
 
         private void button3_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Title = "Выберите файл";
-            openFileDialog1.Filter = "Изображения|*.jpg;*.png;*.bmp";
+            openFileDialog1.Title = "Оберіть файл";
+            openFileDialog1.Filter = "Зображення|*.jpg;*.png;*.bmp";
             openFileDialog1.ShowDialog();
             String pathimg = openFileDialog1.FileName;
             textBox2.Text = pathimg;
@@ -33,8 +33,8 @@ namespace image_recognition_kursova
 
         private void button4_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Title = "Выберите файл";
-            openFileDialog1.Filter = "Изображения|*.jpg;*.png;*.bmp";
+            openFileDialog1.Title = "Оберіть файл";
+            openFileDialog1.Filter = "Зображення|*.jpg;*.png;*.bmp";
             openFileDialog1.ShowDialog();
             String pathimg = openFileDialog1.FileName;
             textBox3.Text = pathimg;
@@ -57,13 +57,16 @@ namespace image_recognition_kursova
             {
                 bmp[i] = new Bitmap(Image.FromFile(path[i]));
             }
+
             // створити навчальну матрицю
             int w = bmp[0].Width;
             int h = bmp[0].Height;
             byte[][,] r = new byte[3][,];
             Color[] c = new Color[3];
+
             for (int k = 0; k < 3; k++)
                 r[k] = new byte[h, w];
+
             for (int k = 0; k < 3; k++)
             {
                 for (int i = 0; i < h; i++)
@@ -75,9 +78,10 @@ namespace image_recognition_kursova
                     }
                 }
             }
+
             //запис навчальної матриці у файл
-            label2.Text = "Матриця яскравості - побудована (файл bright1.txt)";
-            StreamWriter sw1 = new StreamWriter("bright1.txt");
+            label2.Text = "Матриця яскравості побудована – створено файл matrBright1.txt";
+            StreamWriter sw1 = new StreamWriter("matrBright1.txt");
             for (int k = 0; k < 3; k++)
             {
                 sw1.WriteLine("Класс №" + k);
@@ -91,6 +95,7 @@ namespace image_recognition_kursova
                     sw1.WriteLine("\n");
                 }
             }
+
             //Знаходимо середнє арифметичне по кожному стовпцю навчальної матриці (нижні та верхні допуски)
             sw1.Close();
             double[,] sa = new double[3, w];
@@ -108,9 +113,9 @@ namespace image_recognition_kursova
             }
             double[,] ni = new double[3, w];
             double[,] vi = new double[3, w];
-            StreamWriter sw20 = new StreamWriter("ni.txt");
-            StreamWriter sw21 = new StreamWriter("vi.txt");
-            label_ni_vi.Text = "Середнє арифметичне по кожному стовпцю навчальної матриці (Файли ni.txt vi.txt)";
+            StreamWriter sw20 = new StreamWriter("matNi.txt");
+            StreamWriter sw21 = new StreamWriter("matVi.txt");
+            label_ni_vi.Text = "Середнє арифметичне по кожному стовпцю навчальної матриці – створено файли matNi.txt та matVi.txt";
 
             //формування бінарної матриці
             double delta = 20;
@@ -151,8 +156,9 @@ namespace image_recognition_kursova
             }
             sw20.Close();
             sw21.Close();
+
             //розрахунок середнього арифметичного по стовпцях бинарної матриці
-            label3.Text = "Бінарна матриця побудована (файл binary1.txt)";
+            label3.Text = "Бінарна матриця побудована файл – створено файл matBinary1.txt";
             double[,] sab = new double[3, w];
             for (int k = 0; k < 3; k++)
             {
@@ -165,6 +171,7 @@ namespace image_recognition_kursova
                     sab[k, j] = (sab[k, j]) / h;
                 }
             }
+
             //формування еталонного вектору
             int[,] evect = new int[3, w];
             for (int k = 0; k < 3; k++)
@@ -182,10 +189,11 @@ namespace image_recognition_kursova
                     }
                 }
             }
+
             //запис у файл бінорної матриці та еталонного вектору
-            label4.Text = "Еталонний вектор побудований (файл e-vector1.txt)";
-            StreamWriter sw3 = new StreamWriter("binary1.txt");
-            StreamWriter sw5 = new StreamWriter("e-vector1.txt");
+            label4.Text = "Еталонний вектор побудований – створено файл vector1.txt";
+            StreamWriter sw3 = new StreamWriter("matBinary1.txt");
+            StreamWriter sw5 = new StreamWriter("vector1.txt");
             for (int k = 0; k < 3; k++)
             {
                 sw3.WriteLine("Класс №" + k);
@@ -217,6 +225,7 @@ namespace image_recognition_kursova
                 sk[k] = new int[2, h];
             d = 0;
             d1 = 2147483647;
+
             //формування масиву ПАРА
             for (int k = 0; k < 3; k++)
             {
@@ -240,6 +249,7 @@ namespace image_recognition_kursova
                     }
                 }
             }
+
             //формування кодових відстаней
             int sum1;
             int sum2;
@@ -258,9 +268,10 @@ namespace image_recognition_kursova
                     sk[k][1, i] = sum2;
                 }
             }
+
             //запис до файлу масиву кодових відстаней
-            label5.Text = "Масив кодових відстаней сформований (файл sk1.txt)";
-            StreamWriter sw7 = new StreamWriter("sk1.txt");
+            label5.Text = "Масив кодових відстаней сформований – створено файл masSk1.txt";
+            StreamWriter sw7 = new StreamWriter("masSk1.txt");
             for (int k = 0; k < 3; k++)
             {
                 sw7.WriteLine("Класс №" + k);
@@ -277,26 +288,26 @@ namespace image_recognition_kursova
             sw7.Close();
             int kk1, kk2, kk3, kk4;
             double dd1 = 0, dd2 = 0, a = 0, b = 0, ee = 0;
-            StreamWriter sw15 = new StreamWriter("ee.txt");
-            StreamWriter sw16 = new StreamWriter("D1.txt");
-            StreamWriter sw17 = new StreamWriter("D2.txt");
+            StreamWriter sw15 = new StreamWriter("writedEe.txt");
+            StreamWriter sw16 = new StreamWriter("writedD1.txt");
+            StreamWriter sw17 = new StreamWriter("writedD2.txt");
             GraphPane pane1 = zedGraphControl1.GraphPane;
             pane1.XAxis.Title.Text = "r";
             pane1.YAxis.Title.Text = "E";
             PointPairList list1 = new PointPairList();
-            pane1.Title.Text = "Klass 1";
+            pane1.Title.Text = "Клас 1";
             GraphPane pane2 = zedGraphControl2.GraphPane;
             pane2.XAxis.Title.Text = "r";
             pane2.YAxis.Title.Text = "E";
             PointPairList list2 = new PointPairList();
-            pane2.Title.Text = "Klass 2";
+            pane2.Title.Text = "Клас 2";
             PointPairList list4 = new PointPairList();
             PointPairList list3 = new PointPairList();
             GraphPane pane3 = zedGraphControl3.GraphPane;
             pane3.XAxis.Title.Text = "r";
             pane3.YAxis.Title.Text = "E";
             PointPairList list5 = new PointPairList();
-            pane3.Title.Text = "Klass 3";
+            pane3.Title.Text = "Клас 3";
             PointPairList list6 = new PointPairList();
 
             GraphPane pane4 = zedGraphControl4.GraphPane;
@@ -334,6 +345,7 @@ namespace image_recognition_kursova
                     }
                     ee = Math.Log(((2 - (a + b)) / (a + b)), 2) * (1 - (a + b));
                     max = 0;
+
                     //будуємо графік
                     if (k == 0)
                     {
@@ -397,6 +409,7 @@ namespace image_recognition_kursova
                 sw16.Write("----------------------------------------------------------------\n");
                 sw17.Write("----------------------------------------------------------------\n");
             }
+
             //розрахунок оптимальных допусків
             double[,] maxE = new double[3, h];
             int te = 0;
@@ -434,6 +447,7 @@ namespace image_recognition_kursova
                         sab[k, j] = (sab[k, j]) / h;
                     }
                 }
+
                 //формування еталонного вектору
                 for (int k = 0; k < 3; k++)
                 {
@@ -451,6 +465,7 @@ namespace image_recognition_kursova
                 }
                 d = 0;
                 d1 = 2147483647;
+
                 //формування масиву ПАРА
                 for (int k = 0; k < 3; k++)
                 {
@@ -474,6 +489,7 @@ namespace image_recognition_kursova
                         }
                     }
                 }
+
                 //формування кодових відстаней
                 for (int k = 0; k < 3; k++)
                 {
@@ -510,7 +526,7 @@ namespace image_recognition_kursova
                             b = (double)kk3 / h;
                         }
                         ee = Math.Log(((2 - (a + b)) / (a + b)), 2) * (1 - (a + b));
-                        //maxE[k, i] = 0;
+                        
                         if (dd1 > 0.5 && dd2 > 0.5)
                         {
                             maxE[k, te] = maxE[k, te] + ee;
@@ -529,10 +545,10 @@ namespace image_recognition_kursova
                 }
                 te++;
             }
-            StreamWriter sw22 = new StreamWriter("maxE.txt");
+            StreamWriter sw22 = new StreamWriter("writedMaxE.txt");
             for (int k = 0; k < 3; k++)
             {
-                sw22.WriteLine("Klass " + (k + 1) + '\n');
+                sw22.WriteLine("Клас " + (k + 1) + '\n');
                 for (int i = 0; i < te; i++)
                 {
                     sw22.Write(maxE[k, i]);
@@ -542,7 +558,7 @@ namespace image_recognition_kursova
             }
             sw22.Close();
 
-            //знаходимо  Eсер
+            //знаходимо  E середнє
             double[] Esr = new double[h];
             double summ = 0;
             double max_Esr = 0;
@@ -555,16 +571,17 @@ namespace image_recognition_kursova
                     summ += maxE[klass, i];
                 }
                 Esr[i] = summ / 3;
-                if (Esr[i] > max_Esr)
+                if (Esr[i] > max_Esr && !Double.IsInfinity(Esr[i]))
                 {
                     max_Esr = Esr[i];
                     opt_delta = i + 1;
                 }
             }
             optimal_delta = opt_delta;
-            MaxEsr.Text = "Максимальне значення Е(ср) = " + max_Esr + " Оптимальне delta = " + opt_delta;
+            MaxEsr.Text = "Максимальне значення Е(ср) = " + max_Esr + " Оптимальна delta = " + opt_delta;
+           
             //записуємо E-sr до файлу
-            StreamWriter swEsr = new StreamWriter("Esr.txt");
+            StreamWriter swEsr = new StreamWriter("writedEsr.txt");
             swEsr.WriteLine("Е середнє" + '\n');
             for (int i = 0; i < h; i++)
             {
@@ -572,6 +589,7 @@ namespace image_recognition_kursova
                 swEsr.WriteLine("\n");
             }
             swEsr.Close();
+
             //будуємо його графік
             double x7;
             double y7;
@@ -664,8 +682,8 @@ namespace image_recognition_kursova
             }
             double[,] ni = new double[4, w];
             double[,] vi = new double[4, w];
-            StreamWriter sw20 = new StreamWriter("ni-opt.txt");
-            StreamWriter sw21 = new StreamWriter("vi-opt.txt");
+            StreamWriter sw20 = new StreamWriter("writedMatNiOpt.txt");
+            StreamWriter sw21 = new StreamWriter("writedMatViOpt.txt");
 
             //формування бінарної матриці
             double delta = optimal_delta;
@@ -706,6 +724,7 @@ namespace image_recognition_kursova
             }
             sw20.Close();
             sw21.Close();
+
             //розрахунок середнього арифметичного по стовпцях бинарної матриці
             double[,] sab = new double[4, w];
             for (int k = 0; k < 4; k++)
@@ -737,8 +756,8 @@ namespace image_recognition_kursova
                 }
             }
             //запис у файл бінорної матриці та еталонного вектору
-            StreamWriter sw3 = new StreamWriter("binary1-opt.txt");
-            StreamWriter sw5 = new StreamWriter("e-vector1-opt.txt");
+            StreamWriter sw3 = new StreamWriter("writedMatBinary1Opt.txt");
+            StreamWriter sw5 = new StreamWriter("writedVector1Opt.txt");
             for (int k = 0; k < 3; k++)
             {
                 sw3.WriteLine("Класс №" + k);
@@ -812,7 +831,7 @@ namespace image_recognition_kursova
                 }
             }
             //запис до файлу масиву кодових відстаней
-            StreamWriter sw7 = new StreamWriter("sk1-opt.txt");
+            StreamWriter sw7 = new StreamWriter("writedSk1Opt.txt");
             for (int k = 0; k < 3; k++)
             {
                 sw7.WriteLine("Класс №" + k);
@@ -829,26 +848,26 @@ namespace image_recognition_kursova
             sw7.Close();
             int kk1, kk2, kk3, kk4;
             double dd1 = 0, dd2 = 0, a = 0, b = 0, ee = 0;
-            StreamWriter sw15 = new StreamWriter("ee-opt.txt");
-            StreamWriter sw16 = new StreamWriter("D1-opt.txt");
-            StreamWriter sw17 = new StreamWriter("D2-opt.txt");
+            StreamWriter sw15 = new StreamWriter("writedEeOpt.txt");
+            StreamWriter sw16 = new StreamWriter("writedD1Opt.txt");
+            StreamWriter sw17 = new StreamWriter("writedD2Opt.txt");
             GraphPane pane5 = zedGraphControl5.GraphPane;
             pane5.XAxis.Title.Text = "r";
             pane5.YAxis.Title.Text = "E";
             PointPairList list1 = new PointPairList();
-            pane5.Title.Text = "Klass 1 з оптимальною delta";
+            pane5.Title.Text = "Клас 1 з оптимальною delta";
             GraphPane pane6 = zedGraphControl6.GraphPane;
             pane6.XAxis.Title.Text = "r";
             pane6.YAxis.Title.Text = "E";
             PointPairList list2 = new PointPairList();
-            pane6.Title.Text = "Klass 2 з оптимальною delta";
+            pane6.Title.Text = "Клас 2 з оптимальною delta";
             PointPairList list4 = new PointPairList();
             PointPairList list3 = new PointPairList();
             GraphPane pane7 = zedGraphControl7.GraphPane;
             pane7.XAxis.Title.Text = "r";
             pane7.YAxis.Title.Text = "E";
             PointPairList list5 = new PointPairList();
-            pane7.Title.Text = "Klass 3 з оптимальною delta";
+            pane7.Title.Text = "Клас 3 з оптимальною delta";
             PointPairList list6 = new PointPairList();
 
             pane5.XAxis.Scale.Max = 50;
@@ -878,6 +897,7 @@ namespace image_recognition_kursova
                     }
                     ee = Math.Log(((2 - (a + b)) / (a + b)), 2) * (1 - (a + b));
                     max = 0;
+
                     //будуємо графік
                     if (k == 0)
                     {
@@ -945,7 +965,7 @@ namespace image_recognition_kursova
                     sw16.WriteLine("\n");
                     sw17.WriteLine("\n");
                 }
-                rad_for_opt_delt.Text = "Оптимальні радіуси " + rad[0] + " " + rad[1] + " " + rad[2];
+                rad_for_opt_delt.Text = "Оптимальні радіуси: " + rad[0] + " " + rad[1] + " " + rad[2];
                 sw15.Write("----------------------------------------------------------------\n");
                 sw16.Write("----------------------------------------------------------------\n");
                 sw17.Write("----------------------------------------------------------------\n");
@@ -953,9 +973,6 @@ namespace image_recognition_kursova
 
 
             //алгоритм екзамену
-
-
-
             double[] XP = new double[h];
             int[,] XPbin = new int[h, w];
             int[] DD = new int[3];
@@ -1022,7 +1039,7 @@ namespace image_recognition_kursova
             }
 
             //записуємо F до файлу
-            StreamWriter swF = new StreamWriter("F.txt");
+            StreamWriter swF = new StreamWriter("writedF.txt");
             swF.WriteLine("F для класів" + '\n');
             for (int i = 0; i < 3; i++)
             {
@@ -1031,17 +1048,10 @@ namespace image_recognition_kursova
             }
             swF.Close();
 
-
-
             if (max_f >= 0)
                 label7.Text = "Вибране зображення належить класу " + (ind_f + 1);
             else
                 label7.Text = "Не вийшло розпізнати реалізацію";
-
-
-
-
-
 
             LineItem myCurve = pane5.AddCurve(" ", list1, Color.Black, SymbolType.None);
             myCurve.Line.IsSmooth = true;
@@ -1070,21 +1080,10 @@ namespace image_recognition_kursova
             sw17.Close();
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.Title = "Выберите файл";
-            openFileDialog1.Filter = "Изображения|*.jpg;*.png;*.bmp";
-            openFileDialog1.ShowDialog();
-            String pathimg = openFileDialog1.FileName;
-            textBox4.Text = pathimg;
-        }
-
-
-
         private void button6_Click_1(object sender, EventArgs e)
         {
-            openFileDialog1.Title = "Выберите файл";
-            openFileDialog1.Filter = "Изображения|*.jpg;*.png;*.bmp";
+            openFileDialog1.Title = "Оберіть файл";
+            openFileDialog1.Filter = "Зображення|*.jpg;*.png;*.bmp";
             openFileDialog1.ShowDialog();
             String pathimg = openFileDialog1.FileName;
             textBox4.Text = pathimg;

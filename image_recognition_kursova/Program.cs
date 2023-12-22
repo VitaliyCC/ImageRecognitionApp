@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace image_recognition_kursova
+namespace ImageRecognitionApp
 {
     static class Program
     {
